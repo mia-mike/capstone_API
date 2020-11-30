@@ -41,3 +41,20 @@ If you want to try it, you can access (copy-paste it) :
 - https://algo-capstone.herokuapp.com/data/get/equal/books_c.csv/isbn/0439785960
 - https://algo-capstone.herokuapp.com/data/get/equal/books_c.csv/authors/J.K. Rowling
 - and so on, just follow the endpoint's pattern
+
+
+#mengurutkan judul buku dengan list tertinggi ke terendah
+@app.route('/rating_buku')
+def ratingbuku():
+    books = pd.read_csv('data/books_c.csv')
+    pd.crosstab(
+    index=books['title'],
+    columns='average_rating').sort_values(by='average_rating', ascending=False)
+    return books.to_json()  
+
+@app.route('/books_melt')
+def books_melt():
+    books = pd.read_csv('data/books_c.csv')
+    books_melt = books.reset_index().melt(id_vars=['title'])
+    books_melt[books_melt['title']=='Inside Job']  
+    return books_melt.to_json()
